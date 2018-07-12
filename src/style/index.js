@@ -2,7 +2,7 @@
  * @Author: Mujib Ansari 
  * @Date: 2018-07-05 13:04:43 
  * @Last Modified by: Mujib Ansari
- * @Last Modified time: 2018-07-05 18:26:45
+ * @Last Modified time: 2018-07-12 15:28:06
  */
 
 
@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
     divider: {
         borderBottomWidth: 1,
         marginBottom: 5,
-        borderBottomColor: appColor.borderGray
+        borderBottomColor: appColor.borderGray,
+        width: '100%'
     },
     paragraphTag: {
         lineHeight: 20,
@@ -47,6 +48,10 @@ const styles = StyleSheet.create({
     },
     boldTag: {
         fontWeight: 'bold'
+    },
+    textCenter: {
+        textAlign: 'center',
+        padding: 5
     },
 
 
@@ -98,6 +103,24 @@ const styles = StyleSheet.create({
     std_textStyle: {
         textAlign: 'center',
         color: appColor.tableLighBlue
+    },
+
+    // --- Git page
+    tOfTheDay: {
+        textAlign: 'center',
+        paddingTop: 5,
+        paddingBottom: 5,
+
+        fontSize: 18
+    },
+    gitArea: {
+        padding: 5,
+
+        display: 'flex',
+        alignItems: 'center'
+    },
+    gitImg: {
+    
     }
     
 });

@@ -2,7 +2,7 @@
  * @Author: Mujib Ansari 
  * @Date: 2018-07-05 13:51:03 
  * @Last Modified by: Mujib Ansari
- * @Last Modified time: 2018-07-05 18:04:57
+ * @Last Modified time: 2018-07-11 17:18:44
  */
 import React from 'react';
 
@@ -16,6 +16,7 @@ import PhotosPage from '../pages/PhotosPage';
 import VideosPage from '../pages/VideosPage';
 import AboutUsPage from '../pages/AboutUsPage';
 import StandingPage from '../pages/StandingPage';
+import GitPage from '../pages/GitPage';
 
 
 import Home from './Home';
@@ -68,9 +69,16 @@ const RootNav = createDrawerNavigator({
         navigationOption: {
             title: 'Standing Page'
         }
+    },
+
+    GitPage: {
+        screen: GitPage,
+        navigationOption: {
+            title: 'GitHub'
+        }
     }
 }, { 
-    initialRouteName: 'Standings'
+    initialRouteName: 'GitPage'
 });
 
 export default RootNav;
