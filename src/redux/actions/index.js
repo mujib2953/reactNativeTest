@@ -2,7 +2,7 @@
  * @Author: Mujib Ansari 
  * @Date: 2018-07-02 13:49:40 
  * @Last Modified by: Mujib Ansari
- * @Last Modified time: 2018-07-12 13:08:08
+ * @Last Modified time: 2018-07-13 18:20:01
  */
 
 
@@ -10,7 +10,8 @@ import {
     INCR,
     DECR,
     UPDATE_NAME,
-    SET_THOUGHUT
+    SET_THOUGHUT,
+    SET_USERDATA
 } from './ActionTypes';
 
 export const incrementCounterAction = () => {
@@ -27,4 +28,8 @@ export const changeNameAction = ( name ) => {
 
 export const setThought = ( p_thought ) => {
     return { type: SET_THOUGHUT, payload: p_thought }
+}
+
+export const setUserData = ( p_userObj ) => {
+    return { type: SET_USERDATA, payload: p_userObj }
 }

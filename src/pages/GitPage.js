@@ -2,26 +2,32 @@
  * @Author: Mujib Ansari 
  * @Date: 2018-07-11 17:13:56 
  * @Last Modified by: Mujib Ansari
- * @Last Modified time: 2018-07-12 17:16:46
+ * @Last Modified time: 2018-07-16 12:39:16
  */
 import React from 'react';
 
-import { View, ScrollView } from 'react-native';
+import { 
+    // Text,
+    View,
+    ScrollView,
+} from 'react-native';
 
 import {
     Body,
-    Button,
+    // Button,
+    Card,
+    CardItem,
     Container,
-    Content,
-    Footer,
-    FooterTab,
-    Header,
+    // Content,
+    // Footer,
+    // FooterTab,
+    // Header,
     Icon,
     Input,
-    Left,
-    Right,
+    // Left,
+    // Right,
     Text,
-    Title,
+    // Title,
 
     Form,
     Item,
@@ -29,6 +35,8 @@ import {
     Spinner,
 
     H2,
+    H3,
+    Button,
     
 
 } from 'native-base';
@@ -38,16 +46,31 @@ import {
 } from 'react-native-elements';
 
 import {
-    getThoughtOfTheDay
+    getThoughtOfTheDay,
+    getUserDetails
 } from '../common/apis';
 
 import { connect } from 'react-redux';
 
-import { setThought } from '../redux/actions';
+import { 
+    setThought,
+    setUserData
+} from '../redux/actions';
+
+import CustomHeader from '../component/CustomHeader';
 
 import styles from '../style';
 
 class GitPage extends React.Component {
+
+    constructor( props ) {
+        super( props );
+
+        this.state = {
+            sSearchQry: '',
+            isSearched: false
+        }
+    }
 
     componentWillMount() {
         getThoughtOfTheDay()
@@ -59,95 +82,126 @@ class GitPage extends React.Component {
 
     render() {
 
-        const { thoughtOfDay } = this.props;
+        const { thoughtOfDay, navigation } = this.props;
 
         return(
-            <Container fixed>
-                <Header>
-                    <Left>
-                        <Button transparent>
-                        <Icon name='menu' />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Header...</Title>
-                    </Body>
-                    <Right />
-                </Header>
-                <Content>
-                    <Text style={ styles.tOfTheDay }>
-                        "{ thoughtOfDay }"
-                    </Text>
-                    <View style={ styles.divider } />
+            <View
+            >
+                <CustomHeader
+                    name="GitHub"
+                    navigation={ navigation }
+                />
 
+                <View
+                    style={ styles.paddLeftRight }
+                >
                     <Form>
-                        <Item stackedLabel>
-                            <Label>Git Username</Label>
-                            <Input onChangeText={ ( p_typed ) => this.onSeacrh( p_typed ) } />
+                        <Item>
+                            {/* <Label>Git Username</Label> */}
+                            <Icon name="ios-search" />
+                            <Input 
+                                placeholder="Git Username" 
+                                onChangeText = { ( p_typed ) => this.onSeacrh( p_typed ) } 
+                            />
+                            <Icon name="ios-people" />
                         </Item>
-                    </Form>
-                    <Button block
-                        onClick={ () => { console.log( 'clicked....' ); } }
-                    >
-                        <Text>Fetch</Text>
-                    </Button>
-
-                    { this.renderUserDetails() }
-
-                    <ScrollView>
                         
-                    </ScrollView>
-                </Content>
-                {/* <Footer>
-                    <FooterTab>
-                        <Button full>
-                            <Text>Footer</Text>
+                        <View style={ styles.spacer }></View>
+
+                        <Button 
+                            block
+                            onPress={ this.fetchData }
+                        >
+                            <Text>Find User</Text>
                         </Button>
-                    </FooterTab>
-                </Footer> */}
-            </Container>
+                    </Form>
+                </View>
+
+                <View style={ styles.spacer }></View>
+
+                <View>
+                    { this.renderUserDetails() }
+                </View>
+               
+            </View>
         )
     }
 
     onSeacrh = ( p_typed ) => {
-        console.log( p_typed );
+        this.setState( { sSearchQry: p_typed.trim() } );
     }
 
     fetchData = () => {
-        console.log( 'submitted...' );
+        
+        const { sSearchQry } = this.state,
+            { setUserData } = this.props;
+
+        this.toggleLoader( true );
+
+        if( sSearchQry ) {
+            getUserDetails( sSearchQry )
+                .then( resp => resp.json() )
+                .then( resp => {
+                    console.log( 'User Data :: ', resp );
+
+                    setUserData( resp );
+
+                    this.toggleLoader( false );
+
+                } );
+        }
+            
     }
 
     renderUserDetails = () => {
 
-        const { isLoading } = this.props;
+        const { isSearched } = this.state,
+            { userData } = this.props;
 
-        // if( isLoading ) {
+        if( isSearched )
+            return <Spinner />
+
+        if( userData )
             return (
-              
-                    <Container style={ styles.gitArea }>
-                        <Avatar
-                            xlarge
-                            rounded
-                            source={{uri: "https://avatars0.githubusercontent.com/u/17664474?v=4"}}
-                            onPress={() => console.log("Works!")}
-                            activeOpacity={0.7}
-                            style={{ marginBottom: 100 }}
-                        />
+                
+                <Container style={ styles.gitArea }>
                     
-                        <View style={ styles.divider }></View>
+                    <Avatar
+                        xlarge
+                        rounded
+                        source = {{uri: userData.avatar_url }}
+                        onPress={() => console.log("Works!")}
+                        activeOpacity={0.7}
+                    />
+                    
+                    <View style={ [styles.divider, styles.gitImg] }></View>
+                    
+                    <H2>
+                        { userData.name || userData.login }
+                    </H2>
+
+                    <Card>
                         
-                        <H2>User Name</H2>
+                        <CardItem>
+                            <Body>
+                                <H3>Company</H3>
+                                <Text>
+                                    APPPP
+                                </Text>
+                            </Body>
+                        </CardItem>
+                    </Card>
 
-
-
-                    </Container>
+                </Container>
             )
-        // } else {
-        //     return <Spinner />
-        // }
 
+        return null;
     }
     
+    
+    toggleLoader = ( p_bool ) => {
+        this.setState( { isSearched: p_bool } );
+    }
 }
 
 const mapStateToProps = ( state ) => {
@@ -155,13 +209,15 @@ const mapStateToProps = ( state ) => {
     const { gitReducer } = state;
 
     return {
-        thoughtOfDay: gitReducer.thoughtOfDay
+        thoughtOfDay: gitReducer.thoughtOfDay,
+        userData: gitReducer.userData
     };
 }
 
 const mapActionToProps = ( dispatchEvent ) => {
     return {
-        setThought: ( p_payload ) => { dispatchEvent( setThought( p_payload ) ) }
+        setThought: ( p_payload ) => { dispatchEvent( setThought( p_payload ) ) },
+        setUserData: ( p_payload ) => { dispatchEvent( setUserData( p_payload ) ) }
     };
 }
 

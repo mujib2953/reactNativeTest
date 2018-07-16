@@ -2,7 +2,7 @@
  * @Author: Mujib Ansari 
  * @Date: 2018-07-05 13:04:43 
  * @Last Modified by: Mujib Ansari
- * @Last Modified time: 2018-07-12 15:28:06
+ * @Last Modified time: 2018-07-13 17:37:50
  */
 
 
@@ -41,6 +41,11 @@ const styles = StyleSheet.create({
         borderBottomColor: appColor.borderGray,
         width: '100%'
     },
+    spacer: {
+        marginTop: 5,
+        marginBottom: 5,
+        width: '100%'
+    },
     paragraphTag: {
         lineHeight: 20,
         fontSize: 14,
@@ -52,6 +57,11 @@ const styles = StyleSheet.create({
     textCenter: {
         textAlign: 'center',
         padding: 5
+    },
+
+    paddLeftRight: {
+        paddingRight: 5,
+        paddingLeft: 5
     },
 
 
@@ -120,7 +130,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     gitImg: {
-    
+        marginTop: 10
     }
     
 });
